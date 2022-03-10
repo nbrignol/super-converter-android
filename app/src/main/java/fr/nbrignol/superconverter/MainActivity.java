@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -21,7 +22,7 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends AppCompatActivity implements ConverterListener {
 
     protected Converter converter;
 
@@ -31,7 +32,9 @@ public class MainActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_main);
 
         converter = new GeoPluginConverter();
+        converter.setListener(this);
         converter.init(this);
+
 
         Button convertButton = findViewById(R.id.conversionButton);
 
@@ -40,18 +43,31 @@ public class MainActivity extends AppCompatActivity  {
             public void onClick(View view) {
                 TextView resultLabel = findViewById(R.id.conversionResult);
 
-                EditText input = findViewById(R.id.userInput);
-                String stringInput = input.getText().toString();
-                float floatInput = Float.parseFloat(stringInput);
-
-                float result = converter.convert(floatInput);
+                float result = converter.convert( getUserInput() );
                 resultLabel.setText( String.format("%.2f", result) );
 
-                TextView rateLabel = findViewById(R.id.rateLabel);
-                rateLabel.setText( String.format("%.2f", converter.getRate()) );
+
             }
         });
 
     }
 
+    protected float getUserInput(){
+        EditText input = findViewById(R.id.userInput);
+        String stringInput = input.getText().toString();
+        float floatInput = Float.parseFloat(stringInput);
+
+        return floatInput;
+    }
+
+    @Override
+    public void onRateUpdated(float currentRate) {
+        TextView rateLabel = findViewById(R.id.rateLabel);
+        rateLabel.setText( String.format("%.2f", currentRate) );
+    }
+
+    @Override
+    public void onError(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    }
 }

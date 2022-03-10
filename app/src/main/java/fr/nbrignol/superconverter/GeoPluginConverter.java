@@ -33,6 +33,11 @@ public class GeoPluginConverter extends Converter {
                             Double rateDouble = response.getDouble("geoplugin_currencyConverter");
                             rate = 1/ rateDouble.floatValue();
 
+                            if (listener != null) {
+                                listener.onRateUpdated(rate);
+                            }
+
+
                         } catch(JSONException e) {
                             Log.e("CURRENCY", "Impossible de récup le rate.");
                         }
