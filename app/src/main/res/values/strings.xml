@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">SuperConverter</string>
+    <string name="home_message">Salut Android !</string>
+    <string name="currency_eur">EUR:</string>
+    <string name="currency_usd">USD:</string>
+    <string name="question">Ca va ?</string>
+
+
+</resources>
