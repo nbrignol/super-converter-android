@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity implements ConverterListener
         converter.setListener(this);
         converter.init(this);
 
-
         Button convertButton = findViewById(R.id.conversionButton);
 
         convertButton.setOnClickListener(new View.OnClickListener() {
